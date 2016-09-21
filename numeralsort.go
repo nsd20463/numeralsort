@@ -44,8 +44,9 @@ func Less(a, b string) bool {
 		// bignum
 		// first find the end of each numeral. There is no strings.IndexNotAny() (at least not in go1.7), so I have to write my own
 		// function to find the first non-numeral rune
-		x, a := extractNumeral(a)
-		y, b := extractNumeral(b)
+		var x, y string
+		x, a = extractNumeral(a)
+		y, b = extractNumeral(b)
 		if x != y {
 			return lessNumeral(x, y)
 		}
@@ -81,15 +82,17 @@ func lessNumeral(x, y string) bool {
 			xr = x[lx-i]
 		}
 		if i <= ly {
-			ry = y[ly-i]
+			yr = y[ly-i]
 		}
 		// xr,yr are the corresponding digts from x and y, or 0 (which is less than any rune in the '0'-'9' range)
 		if xr != yr {
-			return xr < ry
+			return xr < yr
 		}
 		i--
 	}
 	// x and y are identical. thus they are not less-then
+	// (note this case is not really reached, since the caller already checked that x != y, but in case this code
+	// gets reused elsewhere it might as well be right)
 	return false
 }
 
