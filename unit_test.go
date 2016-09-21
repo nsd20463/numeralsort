@@ -82,7 +82,7 @@ func TestEqual(t *testing.T) {
 
 func TestSort(t *testing.T) {
 	result := []string{"100", "10", "1000", "1", "0"}
-	Sort(result)
+	Strings(result)
 	t.Logf("%q", result)
 	prev := -1
 	for _, s := range result {

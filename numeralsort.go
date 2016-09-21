@@ -96,15 +96,16 @@ func lessNumeral(x, y string) bool {
 	return false
 }
 
-// Strings is a slice of strings sortable in numeral-aware order
-// It implements sort.Interface
-type Strings []string
+// StringSlice is a slice of strings sortable in numeral-aware order
+// It implements sort.Interface. The name matches the equivalent type in the standard sort package.
+type StringSlice []string
 
-func (s Strings) Len() int           { return len(s) }
-func (s Strings) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
-func (s Strings) Less(i, j int) bool { return Less(s[i], s[j]) }
+func (s StringSlice) Len() int           { return len(s) }
+func (s StringSlice) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s StringSlice) Less(i, j int) bool { return Less(s[i], s[j]) }
 
-// Sort is a utility function to sort a slice of strings using numeral-aware sort order
-func Sort(strs []string) {
-	sort.Sort(Strings(strs))
+// Strings is a utility function to sort a slice of strings using numeral-aware sort order.
+// The name matched the name of the equivalent function in the standard sort package.
+func Strings(strs []string) {
+	sort.Sort(StringSlice(strs))
 }
