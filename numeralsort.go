@@ -1,7 +1,7 @@
 /*
   Numeral-aware text sort
 
-    "file1" < "file2" < "file10"
+    "file1" < "file01" < "file2" < "file10"
 
   I wrote this same idea years ago in 68000 assembler for the custom open-file dialog on an Amiga computer.
   It's still useful now, and will be as long as people name files like humans.
@@ -46,14 +46,51 @@ func Less(a, b string) bool {
 		// function to find the first non-numeral rune
 		x, a := extractNumeral(a)
 		y, b := extractNumeral(b)
-
+		if x != y {
+			return lessNumeral(x, y)
+		}
 		// numeral section matched; return to matching text
 	}
 }
 
 // extractNumeral extracts the numeral prefix of a.
-// It returns the numeral decoded as a uint64, or if that doesn't fit, a big.Int
+// It returns the numeral and the remaining non-numeral part of a.
 func extractNumeral(a string) (string, string) {
+	for i, r := range a {
+		if r < '0' || '9' < r {
+			// split at this non-numeric rune
+			return a[:i], a[i:]
+		}
+	}
+	// a is entirely a numeral
+	return a, ""
+}
+
+// lessNumeral compares two numerals in text form, sorting them as numbers
+func lessNumeral(x, y string) bool {
+	// the trick is that x and y only contain [0-9], so they can be treated as slices of bytes
+	lx := len(x)
+	ly := len(y)
+	i := lx
+	if i < ly {
+		i = ly
+	}
+	for i > 0 {
+		var xr, yr byte
+		if i <= lx {
+			xr = x[lx-i]
+		}
+		if i <= ly {
+			ry = y[ly-i]
+		}
+		// xr,yr are the corresponding digts from x and y, or 0 (which is less than any rune in the '0'-'9' range)
+		if xr != yr {
+			return xr < ry
+		}
+		i--
+	}
+	// x and y are identical. thus they are not less-then
+	return false
 }
 
 // Strings is a slice of strings sortable in numeral-aware order
