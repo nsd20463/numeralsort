@@ -8,7 +8,6 @@
 
   Copyright 2016 Nicolas S. Dade
 */
-
 package numeralsort
 
 import (
