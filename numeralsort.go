@@ -1,10 +1,16 @@
 /*
-  Numeral-aware text sort
+  Numeral-aware text sorting.
+
+  People (and log-rotation scripts) tend to number files without leading 0's. That results
+  in filenames like "file1","file2",...,"file10",..., which when sorted the regular way puts
+  "file10" between "file1" and "file2", rather than after "file9" where we think of it being.
+
+  This sort gets the human order:
 
     "file1" < "file01" < "file2" < "file10"
 
-  I wrote this same idea years ago in 68000 assembler for the custom open-file dialog on an Amiga computer.
-  It's still useful now, and will be as long as people name files like humans.
+  I wrote this same algorithm years ago in 68000 assembler for the custom open-file dialog on an Amiga computer.
+  It's still useful now, and will be as long as people name files.
 
   Copyright 2016 Nicolas S. Dade
 */
