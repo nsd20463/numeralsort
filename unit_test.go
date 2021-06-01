@@ -43,6 +43,8 @@ func TestLess(t *testing.T) {
 		"1b2", "1b3",
 		"1b2", "1z2",
 		"1b2", "2b2",
+		"v1.2.0", "v1.10.0",
+		"1.10", "10.1",
 	}
 
 	for i := 0; i < len(cases); i += 2 {
